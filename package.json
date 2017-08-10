@@ -4,6 +4,8 @@
   "private": true,
   "dependencies": {
     "axios": "^0.16.2",
+    "firebase": "^4.2.0",
+    "firebase-tools": "^3.9.2",
     "react": "^15.6.1",
     "react-dom": "^15.6.1"
   },

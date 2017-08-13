@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import axios from 'axios';
-import map from 'lodash/map'
+import map from 'lodash/map';
+import Login from './Login';
 import './App.css';
-import './css/agency.css'
+import './css/agency.css';
 
 class App extends Component {
   constructor(props){
@@ -34,7 +35,8 @@ class App extends Component {
 
   handleJobList(){
     axios.get('https://jason-jobs-bacon.herokuapp.com/api/v1/jobs').then(response => {
-      this.setState({ data: response.data.data })
+      console.log(response);
+      this.setState({ data: response.data })
     }).catch(function (error) {
       console.log(error);
     });
@@ -87,6 +89,7 @@ class App extends Component {
   render() {
     return (
       <div>
+        <Login />
         <header className="masthead">
           <div className="container">
             <div className="intro-text">
@@ -133,7 +136,7 @@ class App extends Component {
         </div>
       </div>
     </section>
-    <section class="bg-light" id="portfolio">
+    <section className="bg-light" id="portfolio">
       <div className="row">
         <div className="col-lg-12 text-center">
           {
@@ -165,7 +168,7 @@ class App extends Component {
             </div>
             <div className="row">
               <div className="col-lg-12">
-                <form id="contactForm" name="sentMessage" novalidate>
+                <form id="contactForm" name="sentMessage" onSubmit={this.handleSubmit}>
                   <div className="row">
                     <div className="col-md-6">
                       <div className="form-group">
@@ -180,7 +183,7 @@ class App extends Component {
                       </div>
                       <div className="form-group">
                         <input className="form-control" type="text" value={this.state.key_skill} onChange={this.handleSkill}
-                          onClick={() => this.setState({skill: ''})}/>
+                          onClick={() => this.setState({key_skill: ''})}/>
                         <p className="help-block text-danger"></p>
                       </div>
                     </div>

@@ -44,6 +44,7 @@ class Login extends Component {
       }
     })
     .then(response => {
+      console.log(response.data.data.user);
         this.setState({currentUser: response.data.data.user})
       }
     )
@@ -121,7 +122,7 @@ class Login extends Component {
 							<button type="submit" className="btn btn-primary btn-lg btn-block login-button">Register</button>
 						</div>
 						   <div className="login-register">
-				           <button>Login</button>
+				           <button >Login</button>
 				       </div>
 					</form>
           </div>

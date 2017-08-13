@@ -24,7 +24,8 @@ class CreateJob extends Component {
       title: this.state.title,
       field: this.state.field,
       key_skill: this.state.key_skill,
-      description: this.state.description
+      description: this.state.description,
+      user_id: this.props.currentUser.id
     })
     .then(() => {
       this.props.handleJobList();

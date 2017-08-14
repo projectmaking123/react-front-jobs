@@ -25,7 +25,7 @@ class JobItem extends Component {
 
   handleUpdateJob(event){
     event.preventDefault()
-    axios.patch(`http://localhost:3000/api/v1/jobs/${parseInt(this.props.job.id, 10)}`, {
+    axios.patch(`https://jason-jobs-bacon.herokuapp.com/api/v1/jobs/${parseInt(this.props.job.id, 10)}`, {
       title: this.state.title,
       field: this.state.field,
       key_skill: this.state.key_skill,

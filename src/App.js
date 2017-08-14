@@ -29,7 +29,7 @@ class App extends Component {
   }
 
   handleJobList(){
-    axios.get('http://localhost:3000/api/v1/jobs').then(response => {
+    axios.get('https://jason-jobs-bacon.herokuapp.com/api/v1/jobs').then(response => {
       this.setState({ data: response.data.data })
     }).catch(function (error) {
       console.log(error);
@@ -38,7 +38,7 @@ class App extends Component {
 
   handleDeleteJob(event){
     event.preventDefault()
-    axios.delete(`http://localhost:3000/api/v1/jobs/${parseInt(event.target.value, 10)}`)
+    axios.delete(`https://jason-jobs-bacon.herokuapp.com/api/v1/jobs/${parseInt(event.target.value, 10)}`)
     .then( () => {
       this.handleJobList();
       }

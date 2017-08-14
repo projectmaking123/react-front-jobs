@@ -20,12 +20,12 @@ class CreateJob extends Component {
 
   handleSubmit(event){
     event.preventDefault()
-    axios.post('https://jason-jobs-bacon.herokuapp.com/api/v1/jobs', {
+    axios.post('http://localhost:3000/api/v1/jobs', {
       title: this.state.title,
       field: this.state.field,
       key_skill: this.state.key_skill,
       description: this.state.description,
-      user_id: this.props.currentUser.id
+      uid: this.props.currentUser.uid
     })
     .then(() => {
       this.props.handleJobList();

@@ -21,25 +21,39 @@ class JobItem extends Component {
     this.handleSkill = this.handleSkill.bind(this);
     this.handleDescription = this.handleDescription.bind(this);
     this.handleContact = this.handleContact.bind(this);
+    this.handleDeleteJob = this.handleDeleteJob.bind(this);
   }
 
   handleUpdateJob(event){
     event.preventDefault()
-    axios.patch(`https://jason-jobs-bacon.herokuapp.com/api/v1/jobs/${parseInt(this.props.job.id, 10)}`, {
-      title: this.state.title,
-      field: this.state.field,
-      key_skill: this.state.key_skill,
-      description: this.state.description,
-      contact: this.state.contact,
-      uid: this.props.currentUser.uid
-    })
-    .then( (res) => {
-      this.setState({show: false})
+    if (this.props.currentUser) {
+      axios.patch(`https://jason-jobs-bacon.herokuapp.com/api/v1/jobs/${parseInt(this.props.job.id, 10)}`, {
+        title: this.state.title,
+        field: this.state.field,
+        key_skill: this.state.key_skill,
+        description: this.state.description,
+        contact: this.state.contact,
+        uid: this.props.currentUser.uid
+      })
+      .then( (res) => {
+        this.setState({show: false})
       }
     ).catch(function (error) {
       console.log(error);
     });
     this.props.handleJobList();
+    }
+  }
+
+  handleDeleteJob(){
+    axios.delete(`https://jason-jobs-bacon.herokuapp.com/api/v1/jobs/${parseInt(this.props.job.id, 10)}`)
+    .then( () => {
+      this.setState({ show: false })
+      this.props.handleJobList();
+      }
+    ).catch(function (error) {
+      console.log(error);
+    });
   }
 
   showForm() {
@@ -63,7 +77,7 @@ class JobItem extends Component {
   }
 
   render() {
-    const { job, currentUser, handleUpdateJob, handleDeleteJob } = this.props
+    const { job, currentUser, handleUpdateJob } = this.props
     const { show, title, field, key_skill, description, contact } = this.state
     return(
       <div className="jobs">
@@ -76,14 +90,14 @@ class JobItem extends Component {
             <p className="card-text">Contact: {contact}</p>
             <div>
             {
-              (currentUser.uid == job.uid) &&
+              (currentUser && (currentUser.uid == job.uid)) &&
               <div>
-              <button className="btn btn-danger" value={job.id} onClick={handleDeleteJob}>
-              Delete
-              </button>
-              <button className="btn btn-info" value={job.id} onClick={this.showForm}>
-              Update
-              </button>
+                <button className="btn btn-danger" onClick={this.handleDeleteJob}>
+                  Delete
+                </button>
+                <button className="btn btn-info" onClick={this.showForm}>
+                  Update
+                </button>
               </div>
             }
             </div>

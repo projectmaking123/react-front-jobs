@@ -16,33 +16,25 @@ class App extends Component {
       currentUser: null
     }
     this.handleJobList = this.handleJobList.bind(this);
-    this.handleDeleteJob = this.handleDeleteJob.bind(this);
+    this.signOut = this.signOut.bind(this);
   }
 
   componentDidMount() {
     auth.onAuthStateChanged((currentUser) => {
-      if (currentUser) {
-        this.setState({currentUser});
-        this.handleJobList();
-      }
+      this.setState({currentUser});
     });
+    this.handleJobList();
+  }
+
+  signOut() {
+    auth.signOut()
+    this.setState({currentUser: null})
   }
 
   handleJobList(){
     axios.get('https://jason-jobs-bacon.herokuapp.com/api/v1/jobs').then(response => {
       this.setState({ data: response.data.data })
     }).catch(function (error) {
-      console.log(error);
-    });
-  }
-
-  handleDeleteJob(event){
-    event.preventDefault()
-    axios.delete(`https://jason-jobs-bacon.herokuapp.com/api/v1/jobs/${parseInt(event.target.value, 10)}`)
-    .then( () => {
-      this.handleJobList();
-      }
-    ).catch(function (error) {
       console.log(error);
     });
   }
@@ -60,14 +52,14 @@ class App extends Component {
   }
 
   render() {
-    const { data, currentUser, handleDeleteJob, handleJobList } = this.state
+    const { data, currentUser } = this.state
     return (
       <div>
         <header className="masthead">
           <div className="container">
             <div className="intro-text">
               <div className="intro-lead-in">Welcome To Jobs Listings</div>
-              <Login />
+              <Login signOut={this.signOut} currentUser={currentUser}/>
             </div>
           </div>
         </header>
@@ -81,14 +73,26 @@ class App extends Component {
       <div className="row">
         <div className="col-lg-12 text-center">
           {
-            data && data.map((job, key) =>
-            <JobItem
-              key={key}
-              job={job}
-              currentUser={currentUser}
-              handleJobList={handleJobList}
-              handleDeleteJob={this.handleDeleteJob}/>
-          )
+            data && data.map((job, key) => {
+            if (currentUser) {
+              return (
+                <JobItem
+                  key={key}
+                  job={job}
+                  currentUser={currentUser}
+                  handleJobList={this.handleJobList}
+                  />
+              )
+            } else {
+              return (
+                <JobItem
+                  key={key}
+                  job={job}
+                  handleJobList={this.handleJobList}
+                  />
+              )
+            }
+          })
         }
         </div>
       </div>

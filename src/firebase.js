@@ -1,12 +1,12 @@
 import firebase from 'firebase';
 
 const config = {
-  apiKey: "AIzaSyBRACpfRYAg-b0H7OD2kimG48q380kEw00",
-  authDomain: "jason-wang-1989.firebaseapp.com",
-  databaseURL: "https://jason-wang-1989.firebaseio.com",
-  projectId: "jason-wang-1989",
-  storageBucket: "",
-  messagingSenderId: "196549394865"
+  apiKey: "AIzaSyAKPMem2RGRNW8fZVyQiA4Tr14ZdpRnbT8",
+  authDomain: "react-for-bacon.firebaseapp.com",
+  databaseURL: "https://react-for-bacon.firebaseio.com",
+  projectId: "react-for-bacon",
+  storageBucket: "react-for-bacon.appspot.com",
+  messagingSenderId: "969286964036"
  };
 firebase.initializeApp(config);
 

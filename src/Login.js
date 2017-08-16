@@ -10,24 +10,25 @@ class Login extends Component {
 			<div className="row main">
 				<div className="panel-heading">
           <div>
-
-              
+            {
+              currentUser &&
+              <button
+                className="btn btn-primary btn-lg btn-block login-button"
+                onClick={this.props.signOut}>
+                Log Out
+              </button>
+            }
+          </div>
+          <div>
+            {
+              !currentUser &&
               <button
                 className="btn btn-primary btn-lg btn-block login-button"
                 onClick={() => auth.signInWithPopup(googleAuthProvider)}>
                 Login with Google to view Jobs
               </button>
-
+            }
           </div>
-            <div>
-
-                <button
-                  className="btn btn-primary btn-lg btn-block login-button"
-                  onClick={() => auth.signOut()}>
-                  Log Out
-                </button>
-
-            </div>
 				</div>
 			</div>
 		</div>

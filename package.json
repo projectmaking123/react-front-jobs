@@ -6,6 +6,7 @@
     "axios": "^0.16.2",
     "firebase": "^4.2.0",
     "firebase-tools": "^3.9.2",
+    "google-map-react": "^0.24.0",
     "react": "^15.6.1",
     "react-dom": "^15.6.1"
   },

@@ -9,13 +9,15 @@ class CreateJob extends Component {
       title: "title",
       field: "field",
       key_skill: "skill",
-      description: "description"
+      description: "description",
+      contact: "contact"
     }
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleTitle = this.handleTitle.bind(this);
     this.handleField = this.handleField.bind(this);
     this.handleSkill = this.handleSkill.bind(this);
     this.handleDescription = this.handleDescription.bind(this);
+    this.handleContact = this.handleContact.bind(this);
   }
 
   handleSubmit(event){
@@ -25,6 +27,7 @@ class CreateJob extends Component {
       field: this.state.field,
       key_skill: this.state.key_skill,
       description: this.state.description,
+      contact: this.state.contact,
       uid: this.props.currentUser.uid
     })
     .then(() => {
@@ -48,9 +51,12 @@ class CreateJob extends Component {
   handleDescription(event) {
     this.setState({description: event.target.value});
   }
+  handleContact(event) {
+    this.setState({contact: event.target.value});
+  }
 
   render() {
-    const { title, field, key_skill, description } = this.state
+    const { title, field, key_skill, description, contact } = this.state
     return(
       <section id="contact">
         <div className="container">
@@ -85,6 +91,11 @@ class CreateJob extends Component {
                     <div className="form-group">
                       <textarea className="form-control" id="message" type="text" value={description} onChange={this.handleDescription}
                         onClick={() => this.setState({description: ''})}/>
+                      <p className="help-block text-danger"></p>
+                    </div>
+                    <div className="form-group">
+                      <input type="text" className="form-control" value={contact} onChange={this.handleContact}
+                        onClick={() => this.setState({contact: ''})}/>
                       <p className="help-block text-danger"></p>
                     </div>
                   </div>

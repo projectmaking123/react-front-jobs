@@ -1,13 +1,15 @@
 import React, { Component } from 'react';
 import axios from 'axios';
-import './JobItem.css'
+import GMap from './GMap'
+import './JobItem.css';
 
 class JobItem extends Component {
   constructor(props){
     super(props)
 
     this.state = {
-      show: false,
+      formShow: false,
+      mapShow: false,
       title: this.props.job.title,
       field: this.props.job.field,
       key_skill: this.props.job.key_skill,
@@ -36,7 +38,7 @@ class JobItem extends Component {
         uid: this.props.currentUser.uid
       })
       .then( (res) => {
-        this.setState({show: false})
+        this.setState({formShow: false})
       }
     ).catch(function (error) {
       console.log(error);
@@ -48,7 +50,7 @@ class JobItem extends Component {
   handleDeleteJob(){
     axios.delete(`https://jason-jobs-bacon.herokuapp.com/api/v1/jobs/${parseInt(this.props.job.id, 10)}`)
     .then( () => {
-      this.setState({ show: false })
+      this.setState({ formShow: false })
       this.props.handleJobList();
       }
     ).catch(function (error) {
@@ -57,7 +59,7 @@ class JobItem extends Component {
   }
 
   showForm() {
-    this.setState({show: true})
+    this.setState({formShow: true})
   }
 
   handleTitle(event) {
@@ -77,8 +79,8 @@ class JobItem extends Component {
   }
 
   render() {
-    const { job, currentUser, handleUpdateJob } = this.props
-    const { show, title, field, key_skill, description, contact } = this.state
+    const { job, currentUser } = this.props
+    const { formShow, mapShow, title, field, key_skill, description, contact } = this.state
     return(
       <div className="jobs">
         <div className="card list-container">
@@ -90,7 +92,7 @@ class JobItem extends Component {
             <p className="card-text">Contact: {contact}</p>
             <div>
             {
-              (currentUser && (currentUser.uid == job.uid)) &&
+              (currentUser && (currentUser.uid === job.uid)) &&
               <div>
                 <button className="btn btn-danger" onClick={this.handleDeleteJob}>
                   Delete
@@ -106,7 +108,7 @@ class JobItem extends Component {
 
         <div>
           {
-            show &&
+            formShow &&
             <div className="container">
               <div className="row">
                   <div className="col-md-12">
@@ -161,6 +163,9 @@ class JobItem extends Component {
           </div>
           }
         </div>
+        {
+            <GMap />
+        }
       </div>
     )
   }

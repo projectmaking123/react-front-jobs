@@ -25,7 +25,7 @@ class Login extends Component {
               <button
                 className="btn btn-primary btn-lg btn-block login-button"
                 onClick={() => auth.signInWithPopup(googleAuthProvider)}>
-                Login with Google to view Jobs
+                Login with Google to apply and create jobs 
               </button>
             }
           </div>

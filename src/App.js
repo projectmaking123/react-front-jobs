@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { auth } from './firebase'
+import { auth } from './firebase';
 import axios from 'axios';
 import Login from './Login';
 import JobItem from './JobItem';
@@ -63,6 +63,7 @@ class App extends Component {
             </div>
           </div>
         </header>
+
         <div>
           {
             currentUser &&
@@ -97,18 +98,18 @@ class App extends Component {
         </div>
       </div>
     </section>
-    <div>
-      {
-        currentUser &&
-        <CreateJob
-          handleJobList={this.handleJobList}
-          handleConfirm={this.handleConfirm}
-          handleEmail={this.handleEmail}
-          handlePassword={this.handlePassword}
-          currentUser={currentUser}
-          />
-      }
-    </div>
+      <div>
+        {
+          currentUser &&
+          <CreateJob
+            handleJobList={this.handleJobList}
+            handleConfirm={this.handleConfirm}
+            handleEmail={this.handleEmail}
+            handlePassword={this.handlePassword}
+            currentUser={currentUser}
+            />
+        }
+      </div>
     </div>
     );
   }

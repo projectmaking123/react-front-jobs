@@ -21,6 +21,7 @@ class App extends Component {
 
   componentDidMount() {
     auth.onAuthStateChanged((currentUser) => {
+      console.log(currentUser);
       this.setState({currentUser});
     });
     this.handleJobList();
@@ -33,6 +34,7 @@ class App extends Component {
 
   handleJobList(){
     axios.get('https://jason-jobs-bacon.herokuapp.com/api/v1/jobs').then(response => {
+      console.log(response.data.data);
       this.setState({ data: response.data.data })
     }).catch(function (error) {
       console.log(error);
@@ -58,12 +60,23 @@ class App extends Component {
         <header className="masthead">
           <div className="container">
             <div className="intro-text">
-              <div className="intro-lead-in">Welcome To Jobs Listings</div>
+              <div className="intro-lead-in">Lets Bring Home Some Bacon!</div>
               <Login signOut={this.signOut} currentUser={currentUser}/>
             </div>
           </div>
         </header>
-
+        <div>
+          {
+            currentUser &&
+            <CreateJob
+              handleJobList={this.handleJobList}
+              handleConfirm={this.handleConfirm}
+              handleEmail={this.handleEmail}
+              handlePassword={this.handlePassword}
+              currentUser={currentUser}
+              />
+            }
+        </div>
         <div>
           {
             currentUser &&
@@ -98,18 +111,6 @@ class App extends Component {
         </div>
       </div>
     </section>
-      <div>
-        {
-          currentUser &&
-          <CreateJob
-            handleJobList={this.handleJobList}
-            handleConfirm={this.handleConfirm}
-            handleEmail={this.handleEmail}
-            handlePassword={this.handlePassword}
-            currentUser={currentUser}
-            />
-        }
-      </div>
     </div>
     );
   }

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios';
-import GMap from './GMap'
+import GMap from './GMap';
+import moment from 'moment'
 import './JobItem.css';
 
 class JobItem extends Component {
@@ -16,6 +17,7 @@ class JobItem extends Component {
       description: this.props.job.description,
       contact: this.props.job.contact,
       location: this.props.job.location,
+      creation: this.props.job.created_at,
       lat: null,
       lng: null
     }
@@ -49,11 +51,11 @@ class JobItem extends Component {
       })
       .then( (res) => {
         this.setState({formShow: false})
+        this.props.handleJobList();
       }
     ).catch(function (error) {
       console.log(error);
     });
-    this.props.handleJobList();
     }
   }
 
@@ -65,7 +67,7 @@ class JobItem extends Component {
         lng: response.data.results[0].geometry.location.lng
       })
     })
-    .catch(function (error) {
+    .catch((error) => {
       console.log(error);
     });
   }
@@ -106,7 +108,7 @@ class JobItem extends Component {
 
   render() {
     const { job, currentUser } = this.props
-    const { formShow, mapShow, title, field, key_skill, description, contact, location, lat, lng } = this.state
+    const { formShow, mapShow, title, field, key_skill, description, contact, location, lat, lng, creation } = this.state
     return(
       <div className="jobs">
         <div className="card list-container">
@@ -117,6 +119,7 @@ class JobItem extends Component {
             <p className="card-text">Description: {description}</p>
             <p className="card-text">Contact: {contact}</p>
             <p className="card-text">Location: {location}</p>
+            <p className="card-text">Posted: {creation.match(/^20\d+-\d+-\d+/)[0]}</p>
             <div>
             {
               (currentUser && (currentUser.uid === job.uid)) &&
@@ -152,43 +155,43 @@ class JobItem extends Component {
                               <fieldset>
                                   <legend className="text-center header">Update</legend>
                                   <div className="form-group">
-                                      <span className="col-md-1 col-md-offset-2 text-center"></span>
+                                      <span className="col-md-1 col-md-offset-2 text-center"><label>Title</label></span>
                                       <div className="col-md-8">
-                                          <input id="fname" type="text" value={title} onChange={this.handleTitle} className="form-control" />
+                                        <input id="message" type="text" value={title} onChange={this.handleTitle} className="form-control" />
                                       </div>
                                   </div>
                                   <div className="form-group">
-                                      <span className="col-md-1 col-md-offset-2 text-center"></span>
+                                      <span className="col-md-1 col-md-offset-2 text-center"><label>Field</label></span>
                                       <div className="col-md-8">
-                                          <input id="lname" type="text" value={field} onChange={this.handleField} className="form-control" />
-                                      </div>
-                                  </div>
-
-                                  <div className="form-group">
-                                      <span className="col-md-1 col-md-offset-2 text-center"></span>
-                                      <div className="col-md-8">
-                                          <input id="email" type="text" value={key_skill} onChange={this.handleSkill} className="form-control" />
+                                        <input id="message" type="text" value={field} onChange={this.handleField} className="form-control" />
                                       </div>
                                   </div>
 
                                   <div className="form-group">
-                                      <span className="col-md-1 col-md-offset-2 text-center"></span>
+                                      <span className="col-md-1 col-md-offset-2 text-center"><label>Skill</label></span>
                                       <div className="col-md-8">
-                                          <textarea className="form-control" id="message" name="message" onChange={this.handleDescription} value={description} rows="7"></textarea>
+                                        <input id="message" type="text" value={key_skill} onChange={this.handleSkill} className="form-control" />
                                       </div>
                                   </div>
 
                                   <div className="form-group">
-                                      <span className="col-md-1 col-md-offset-2 text-center"></span>
+                                      <span className="col-md-1 col-md-offset-2 text-center"><label>Description</label></span>
                                       <div className="col-md-8">
-                                          <input id="email" type="text" value={contact} onChange={this.handleContact} className="form-control" />
+                                        <textarea className="form-control" id="message" name="message" onChange={this.handleDescription} value={description} rows="7"></textarea>
                                       </div>
                                   </div>
 
                                   <div className="form-group">
-                                      <span className="col-md-1 col-md-offset-2 text-center"></span>
+                                      <span className="col-md-1 col-md-offset-2 text-center"><label>Contact</label></span>
                                       <div className="col-md-8">
-                                          <input id="email" type="text" value={location} onChange={this.handleLocation} className="form-control" />
+                                        <input id="email" type="text" value={contact} onChange={this.handleContact} className="form-control" />
+                                      </div>
+                                  </div>
+
+                                  <div className="form-group">
+                                      <span className="col-md-1 col-md-offset-2 text-center"><label>Location</label></span>
+                                      <div className="col-md-8">
+                                        <input id="email" type="text" value={location} onChange={this.handleLocation} className="form-control" />
                                       </div>
                                   </div>
 
@@ -212,8 +215,11 @@ class JobItem extends Component {
             location={location}
             lat={lat}
             lng={lng}
-             />
+            />
         }
+        <div></div>
+          <div></div>
+
       </div>
     )
   }

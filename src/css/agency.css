@@ -127,6 +127,7 @@ header.masthead {
     padding-top: 150px;
     padding-bottom: 100px; }
     header.masthead .intro-text .intro-lead-in {
+      color: black;
       font-size: 22px;
       font-style: italic;
       line-height: 22px;

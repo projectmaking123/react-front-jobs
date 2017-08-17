@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import GoogleMapReact from 'google-map-react';
 
-const AnyReactComponent = ({ text }) => <div>{text}</div>
+const Marker = ({ text }) => <div><i style={{fontSize: '20px'}} className="glyphicon glyphicon-pushpin"></i></div>
 
 class GMap extends Component {
   constructor(props) {
@@ -15,7 +15,7 @@ class GMap extends Component {
 };
 
 render() {
-  const { location , lat, lng } = this.props
+  const { location, lat, lng } = this.props
   return (
       <div className="container">
         <div className="row">
@@ -30,7 +30,7 @@ render() {
               defaultCenter={this.state.center}
               defaultZoom={12}
               >
-              <AnyReactComponent
+              <Marker
                 lat={lat}
                 lng={lng}
                 text={location}

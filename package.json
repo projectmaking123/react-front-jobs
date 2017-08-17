@@ -7,7 +7,9 @@
     "firebase": "^4.2.0",
     "firebase-tools": "^3.9.2",
     "google-map-react": "^0.24.0",
+    "moment": "^2.18.1",
     "react": "^15.6.1",
+    "react-addons-pure-render-mixin": "^15.6.0",
     "react-dom": "^15.6.1"
   },
   "devDependencies": {

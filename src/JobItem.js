@@ -14,7 +14,10 @@ class JobItem extends Component {
       field: this.props.job.field,
       key_skill: this.props.job.key_skill,
       description: this.props.job.description,
-      contact: this.props.job.contact
+      contact: this.props.job.contact,
+      location: this.props.job.location,
+      lat: null,
+      lng: null
     }
     this.showForm = this.showForm.bind(this);
     this.handleUpdateJob = this.handleUpdateJob.bind(this);
@@ -23,7 +26,13 @@ class JobItem extends Component {
     this.handleSkill = this.handleSkill.bind(this);
     this.handleDescription = this.handleDescription.bind(this);
     this.handleContact = this.handleContact.bind(this);
+    this.handleLocation = this.handleLocation.bind(this);
     this.handleDeleteJob = this.handleDeleteJob.bind(this);
+    this.handleGeoMapApi = this.handleGeoMapApi.bind(this);
+  }
+
+  componentDidMount(){
+    this.handleGeoMapApi()
   }
 
   handleUpdateJob(event){
@@ -35,6 +44,7 @@ class JobItem extends Component {
         key_skill: this.state.key_skill,
         description: this.state.description,
         contact: this.state.contact,
+        location: this.state.location,
         uid: this.props.currentUser.uid
       })
       .then( (res) => {
@@ -45,6 +55,19 @@ class JobItem extends Component {
     });
     this.props.handleJobList();
     }
+  }
+
+  handleGeoMapApi() {
+    axios.get(`https://maps.googleapis.com/maps/api/geocode/json?address=${this.state.location}&sensor=true`)
+    .then(response => {
+      this.setState({
+        lat: response.data.results[0].geometry.location.lat,
+        lng: response.data.results[0].geometry.location.lng
+      })
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
   }
 
   handleDeleteJob(){
@@ -77,10 +100,13 @@ class JobItem extends Component {
   handleContact(event) {
     this.setState({contact: event.target.value});
   }
+  handleLocation(event) {
+    this.setState({location: event.target.value});
+  }
 
   render() {
     const { job, currentUser } = this.props
-    const { formShow, mapShow, title, field, key_skill, description, contact } = this.state
+    const { formShow, mapShow, title, field, key_skill, description, contact, location, lat, lng } = this.state
     return(
       <div className="jobs">
         <div className="card list-container">
@@ -90,6 +116,7 @@ class JobItem extends Component {
             <p className="card-text">Skill: {key_skill}</p>
             <p className="card-text">Description: {description}</p>
             <p className="card-text">Contact: {contact}</p>
+            <p className="card-text">Location: {location}</p>
             <div>
             {
               (currentUser && (currentUser.uid === job.uid)) &&
@@ -101,6 +128,14 @@ class JobItem extends Component {
                   Update
                 </button>
               </div>
+            }
+            {
+              !mapShow &&
+              <button className="btn btn-success" onClick={() => this.setState({mapShow: true})} >Show Map</button>
+            }
+            {
+              mapShow &&
+              <button className="btn btn-danger" onClick={() => this.setState({mapShow: false})} >Hide Map</button>
             }
             </div>
           </div>
@@ -151,10 +186,18 @@ class JobItem extends Component {
                                   </div>
 
                                   <div className="form-group">
+                                      <span className="col-md-1 col-md-offset-2 text-center"></span>
+                                      <div className="col-md-8">
+                                          <input id="email" type="text" value={location} onChange={this.handleLocation} className="form-control" />
+                                      </div>
+                                  </div>
+
+                                  <div className="form-group">
                                       <div className="col-md-12 text-center">
                                           <button type="submit" className="btn btn-primary btn-lg">Submit</button>
                                       </div>
                                   </div>
+
                               </fieldset>
                           </form>
                       </div>
@@ -164,7 +207,12 @@ class JobItem extends Component {
           }
         </div>
         {
-            <GMap />
+          (mapShow && lng) &&
+          <GMap
+            location={location}
+            lat={lat}
+            lng={lng}
+             />
         }
       </div>
     )

@@ -11,7 +11,8 @@ class CreateJob extends Component {
       field: "field",
       key_skill: "skill",
       description: "description",
-      contact: "contact"
+      contact: "contact",
+      location: 'city'
     }
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleTitle = this.handleTitle.bind(this);
@@ -19,6 +20,7 @@ class CreateJob extends Component {
     this.handleSkill = this.handleSkill.bind(this);
     this.handleDescription = this.handleDescription.bind(this);
     this.handleContact = this.handleContact.bind(this);
+    this.handleLocation = this.handleLocation.bind(this);
   }
 
   handleSubmit(event){
@@ -29,6 +31,7 @@ class CreateJob extends Component {
       key_skill: this.state.key_skill,
       description: this.state.description,
       contact: this.state.contact,
+      location: this.state.location,
       uid: this.props.currentUser.uid
     })
     .then(() => {
@@ -55,9 +58,12 @@ class CreateJob extends Component {
   handleContact(event) {
     this.setState({contact: event.target.value});
   }
+  handleLocation(event) {
+    this.setState({location: event.target.value});
+  }
 
   render() {
-    const { title, field, key_skill, description, contact } = this.state
+    const { title, field, key_skill, description, contact, location } = this.state
     return(
       <section id="contact">
         <div className="container">
@@ -85,6 +91,11 @@ class CreateJob extends Component {
                     <div className="form-group">
                       <input className="form-control" type="text" value={key_skill} onChange={this.handleSkill}
                         onClick={() => this.setState({key_skill: ''})}/>
+                      <p className="help-block text-danger"></p>
+                    </div>
+                    <div className="form-group">
+                      <input type="text" className="form-control" value={location} onChange={this.handleLocation}
+                        onClick={() => this.setState({location: ''})}/>
                       <p className="help-block text-danger"></p>
                     </div>
                   </div>

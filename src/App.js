@@ -13,10 +13,12 @@ class App extends Component {
 
     this.state = {
       data: null,
-      currentUser: null
+      currentUser: null,
+      searchTerm: ''
     }
     this.handleJobList = this.handleJobList.bind(this);
     this.signOut = this.signOut.bind(this);
+    this.searchFilter = this.searchFilter.bind(this);
   }
 
   componentDidMount() {
@@ -24,6 +26,10 @@ class App extends Component {
       this.setState({currentUser});
     });
     this.handleJobList();
+  }
+
+  searchFilter = event => {
+    this.setState({searchTerm: event.target.value})
   }
 
   signOut() {
@@ -52,7 +58,7 @@ class App extends Component {
   }
 
   render() {
-    const { data, currentUser } = this.state
+    const { data, currentUser, searchTerm } = this.state
     return (
       <div>
         <header className="masthead">
@@ -81,6 +87,22 @@ class App extends Component {
             <div>
               <h1 style={{textAlign: 'center'}}>It's Nice To Meet You {currentUser.displayName}</h1>
               <h1 style={{textAlign: 'center'}}>Good Luck in catching some piggies</h1>
+              <form>
+                <div className="row">
+                  <div className="col-md-12">
+                    <div className="form-group">
+                      <input
+                        type="text"
+                        className="form-control"
+                        onChange={this.searchFilter}
+                        value={this.state.searchTerm}
+                        placeholder={"SEARCH JOBS BY TITLE"}
+                        style={{textAlign: 'center'}}
+                        />
+                    </div>
+                  </div>
+                </div>
+              </form>
             </div>
           }
         </div>
@@ -88,27 +110,19 @@ class App extends Component {
       <div className="row">
         <div className="col-lg-12 text-center">
           {
-            data && data.map((job, key) => {
-            if (currentUser) {
-              return (
-                <JobItem
-                  key={key}
-                  job={job}
-                  currentUser={currentUser}
-                  handleJobList={this.handleJobList}
-                  />
-              )
-            } else {
-              return (
-                <JobItem
-                  key={key}
-                  job={job}
-                  handleJobList={this.handleJobList}
-                  />
-              )
-            }
-          })
+            data &&
+            data
+            .filter((job) => `${job.title} ${job.field} ${job.key_skill}`.toUpperCase().indexOf(searchTerm.toUpperCase()) >= 0)
+            .map(job =>
+              <JobItem
+                key={job.id}
+                job={job}
+                currentUser={currentUser}
+                handleJobList={this.handleJobList}
+                />
+          )
         }
+
         </div>
       </div>
     </section>

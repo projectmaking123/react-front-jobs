@@ -141,16 +141,18 @@ class JobItem extends Component {
         <div className="card list-container">
           <div className="card-block">
             <h4 className="card-title">{title}</h4>
-            { !jobShow &&
-              <button className="btn btn-info" onClick={() => this.setState({jobShow: true})}>
-                Show More
-              </button>
-            }
-            { jobShow &&
-              <button className="btn btn-danger" onClick={() => this.setState({jobShow: false})}>
-                Show Less
-              </button>
-            }
+            <div>
+              { !jobShow &&
+                <button className="btn btn-info" onClick={() => this.setState({jobShow: true})}>
+                  Show More
+                </button>
+              }
+              { jobShow &&
+                <button className="btn btn-danger" onClick={() => this.setState({jobShow: false})}>
+                  Show Less
+                </button>
+              }
+            </div>
             <div>
             { jobShow &&
               <div>
@@ -163,23 +165,21 @@ class JobItem extends Component {
               </div>
             }
             </div>
-              { this.props.job.applicants &&
+              { (currentUser && this.props.job.applicants) &&
                 this.props.job.applicants.map((user, key) => {
-                  if ((user.uid === currentUser.uid)) {
+                  if (user.uid === currentUser.uid) {
                     return (<p className="card-text" key={key} > Applied </p>)
                   }
                 })
               }
               {
-                (!this.props.job.applicants.some(user => user.uid === this.props.currentUser.uid )) &&
-                <a className={"btn btn-outlined btn-theme" + this.state.applied}
+              (currentUser && !this.props.job.applicants.some(user => user.uid === currentUser.uid )) &&
+                <a className={"btn btn-outlined btn-theme apply-btn" + this.state.applied}
                   data-wow-delay="0.7s"
-                  onClick={this.applyToJob}
-                  >Apply</a>
+                  onClick={this.applyToJob}>Apply</a>
               }
               <div>
-                {
-                  (currentUser && (currentUser.uid === job.uid)) &&
+                {(currentUser && (currentUser.uid === job.uid)) &&
                   <div>
                     <button className="btn btn-danger" onClick={this.handleDeleteJob}>
                       Delete
@@ -280,3 +280,17 @@ class JobItem extends Component {
 }
 
 export default JobItem;
+
+
+// (currentUser.uid !== job.uid) &&
+
+  // (currentUser && (currentUser.uid === job.uid)) &&
+
+  // !this.props.job.applicants.some(user => user.uid === this.props.currentUser.uid ))
+
+  // {
+  // (!this.props.job.applicants.some(user => user.uid === this.props.currentUser.uid )) &&
+  //   <a className={"btn btn-outlined btn-theme apply-btn" + this.state.applied}
+  //     data-wow-delay="0.7s"
+  //     onClick={this.applyToJob}>Apply</a>
+  // }

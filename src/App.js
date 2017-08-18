@@ -21,7 +21,6 @@ class App extends Component {
 
   componentDidMount() {
     auth.onAuthStateChanged((currentUser) => {
-      console.log(currentUser);
       this.setState({currentUser});
     });
     this.handleJobList();
@@ -34,7 +33,6 @@ class App extends Component {
 
   handleJobList(){
     axios.get('https://jason-jobs-bacon.herokuapp.com/api/v1/jobs').then(response => {
-      console.log(response.data.data);
       this.setState({ data: response.data.data })
     }).catch(function (error) {
       console.log(error);
@@ -80,7 +78,10 @@ class App extends Component {
         <div>
           {
             currentUser &&
-            <h1 style={{textAlign: 'center'}}>It's Nice To Meet You {currentUser.displayName}</h1>
+            <div>
+              <h1 style={{textAlign: 'center'}}>It's Nice To Meet You {currentUser.displayName}</h1>
+              <h1 style={{textAlign: 'center'}}>Good Luck in catching some piggies</h1>
+            </div>
           }
         </div>
     <section className="bg-light" id="portfolio">

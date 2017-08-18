@@ -1,3 +1,5 @@
+@import url(//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css);
+
 body, html{
      height: 100%;
  	background-repeat: no-repeat;
@@ -61,4 +63,11 @@ input::-webkit-input-placeholder {
 .login-register{
 	font-size: 11px;
 	text-align: center;
+}
+
+.btn-google-plus{
+  color:#fff;background-color:#dd4b39;border-color:rgba(0,0,0,0.2)
+}
+.btn-google-plus:hover,.btn-google-plus:focus,.btn-google-plus:active,.btn-google-plus.active,.open .dropdown-toggle.btn-google-plus{
+  color:#fff;background-color:#ca3523;border-color:rgba(0,0,0,0.2)
 }

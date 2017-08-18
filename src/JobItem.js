@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import GMap from './GMap';
-import moment from 'moment'
+import moment from 'moment';
+import map from 'lodash/map';
 import './JobItem.css';
 
 class JobItem extends Component {
@@ -9,6 +10,8 @@ class JobItem extends Component {
     super(props)
 
     this.state = {
+      jobShow: false,
+      applied: 'show',
       formShow: false,
       mapShow: false,
       title: this.props.job.title,
@@ -18,6 +21,7 @@ class JobItem extends Component {
       contact: this.props.job.contact,
       location: this.props.job.location,
       creation: this.props.job.created_at,
+      applicants: this.props.job.applicants,
       lat: null,
       lng: null
     }
@@ -31,10 +35,32 @@ class JobItem extends Component {
     this.handleLocation = this.handleLocation.bind(this);
     this.handleDeleteJob = this.handleDeleteJob.bind(this);
     this.handleGeoMapApi = this.handleGeoMapApi.bind(this);
+    this.applyToJob = this.applyToJob.bind(this);
   }
 
   componentDidMount(){
-    this.handleGeoMapApi()
+    this.handleGeoMapApi();
+  }
+
+  showJob(){
+    this.setState({})
+  }
+
+  applyToJob(){
+    const { currentUser } = this.props
+    this.setState({applied: 'hidden'})
+    axios.post(`https://jason-jobs-bacon.herokuapp.com/api/v1/jobs/${this.props.job.id}/users`, {
+      name: currentUser.displayName,
+      email: currentUser.email,
+      uid: currentUser.uid
+    })
+    .then((res) => {
+      }
+    )
+    .catch(function (error) {
+      console.log(error);
+    });
+    this.props.handleJobList();
   }
 
   handleUpdateJob(event){
@@ -52,6 +78,7 @@ class JobItem extends Component {
       .then( (res) => {
         this.setState({formShow: false})
         this.props.handleJobList();
+        this.handleGeoMapApi();
       }
     ).catch(function (error) {
       console.log(error);
@@ -108,106 +135,136 @@ class JobItem extends Component {
 
   render() {
     const { job, currentUser } = this.props
-    const { formShow, mapShow, title, field, key_skill, description, contact, location, lat, lng, creation } = this.state
+    const { formShow, mapShow, title, field, key_skill, description, contact, location, lat, lng, creation, jobShow } = this.state
     return(
       <div className="jobs">
         <div className="card list-container">
           <div className="card-block">
             <h4 className="card-title">{title}</h4>
-            <p className="card-text">Field: {field}</p>
-            <p className="card-text">Skill: {key_skill}</p>
-            <p className="card-text">Description: {description}</p>
-            <p className="card-text">Contact: {contact}</p>
-            <p className="card-text">Location: {location}</p>
-            <p className="card-text">Posted: {creation.match(/^20\d+-\d+-\d+/)[0]}</p>
+            { !jobShow &&
+              <button className="btn btn-info" onClick={() => this.setState({jobShow: true})}>
+                Show More
+              </button>
+            }
+            { jobShow &&
+              <button className="btn btn-danger" onClick={() => this.setState({jobShow: false})}>
+                Show Less
+              </button>
+            }
             <div>
-            {
-              (currentUser && (currentUser.uid === job.uid)) &&
+            { jobShow &&
               <div>
-                <button className="btn btn-danger" onClick={this.handleDeleteJob}>
-                  Delete
-                </button>
-                <button className="btn btn-info" onClick={this.showForm}>
-                  Update
-                </button>
+                <p className="card-text">Field: {field}</p>
+                <p className="card-text">Skill: {key_skill}</p>
+                <p className="card-text">Description: {description}</p>
+                <p className="card-text">Contact: {contact}</p>
+                <p className="card-text">Location: {location}</p>
+                <p className="card-text">Posted: {creation.match(/^20\d+-\d+-\d+/)[0]}</p>
               </div>
             }
-            {
-              !mapShow &&
-              <button className="btn btn-success" onClick={() => this.setState({mapShow: true})} >Show Map</button>
-            }
-            {
-              mapShow &&
-              <button className="btn btn-danger" onClick={() => this.setState({mapShow: false})} >Hide Map</button>
-            }
+            </div>
+              { this.props.job.applicants &&
+                this.props.job.applicants.map((user, key) => {
+                  if ((user.uid === currentUser.uid)) {
+                    return (<p className="card-text" key={key} > Applied </p>)
+                  }
+                })
+              }
+              {
+                (!this.props.job.applicants.some(user => user.uid === this.props.currentUser.uid )) &&
+                <a className={"btn btn-outlined btn-theme" + this.state.applied}
+                  data-wow-delay="0.7s"
+                  onClick={this.applyToJob}
+                  >Apply</a>
+              }
+              <div>
+                {
+                  (currentUser && (currentUser.uid === job.uid)) &&
+                  <div>
+                    <button className="btn btn-danger" onClick={this.handleDeleteJob}>
+                      Delete
+                    </button>
+                    <button className="btn btn-info" onClick={this.showForm}>
+                      Update
+                    </button>
+                  </div>
+                }
+                {
+                  !mapShow &&
+                  <button className="btn btn-success" onClick={() => this.setState({mapShow: true})} >Show Map</button>
+                }
+                {
+                  mapShow &&
+                  <button className="btn btn-danger" onClick={() => this.setState({mapShow: false})} >Hide Map</button>
+                }
             </div>
           </div>
         </div>
 
-        <div>
-          {
-            formShow &&
-            <div className="container">
-              <div className="row">
+          <div>
+            {
+              formShow &&
+              <div className="container">
+                <div className="row">
                   <div className="col-md-12">
-                      <div className="well well-sm">
-                          <form className="form-horizontal" onSubmit={this.handleUpdateJob}>
-                              <fieldset>
-                                  <legend className="text-center header">Update</legend>
-                                  <div className="form-group">
-                                      <span className="col-md-1 col-md-offset-2 text-center"><label>Title</label></span>
-                                      <div className="col-md-8">
-                                        <input id="message" type="text" value={title} onChange={this.handleTitle} className="form-control" />
-                                      </div>
-                                  </div>
-                                  <div className="form-group">
-                                      <span className="col-md-1 col-md-offset-2 text-center"><label>Field</label></span>
-                                      <div className="col-md-8">
-                                        <input id="message" type="text" value={field} onChange={this.handleField} className="form-control" />
-                                      </div>
-                                  </div>
+                    <div className="well well-sm">
+                      <form className="form-horizontal" onSubmit={this.handleUpdateJob}>
+                        <fieldset>
+                          <legend className="text-center header">Update</legend>
+                          <div className="form-group">
+                            <span className="col-md-1 col-md-offset-2 text-center"><label>Title</label></span>
+                            <div className="col-md-8">
+                              <input id="message" type="text" value={title} onChange={this.handleTitle} className="form-control" />
+                            </div>
+                          </div>
+                          <div className="form-group">
+                            <span className="col-md-1 col-md-offset-2 text-center"><label>Field</label></span>
+                            <div className="col-md-8">
+                              <input id="message" type="text" value={field} onChange={this.handleField} className="form-control" />
+                            </div>
+                          </div>
 
-                                  <div className="form-group">
-                                      <span className="col-md-1 col-md-offset-2 text-center"><label>Skill</label></span>
-                                      <div className="col-md-8">
-                                        <input id="message" type="text" value={key_skill} onChange={this.handleSkill} className="form-control" />
-                                      </div>
-                                  </div>
+                          <div className="form-group">
+                            <span className="col-md-1 col-md-offset-2 text-center"><label>Skill</label></span>
+                            <div className="col-md-8">
+                              <input id="message" type="text" value={key_skill} onChange={this.handleSkill} className="form-control" />
+                            </div>
+                          </div>
 
-                                  <div className="form-group">
-                                      <span className="col-md-1 col-md-offset-2 text-center"><label>Description</label></span>
-                                      <div className="col-md-8">
-                                        <textarea className="form-control" id="message" name="message" onChange={this.handleDescription} value={description} rows="7"></textarea>
-                                      </div>
-                                  </div>
+                          <div className="form-group">
+                            <span className="col-md-1 col-md-offset-2 text-center"><label>Description</label></span>
+                            <div className="col-md-8">
+                              <textarea className="form-control" id="message" name="message" onChange={this.handleDescription} value={description} rows="7"></textarea>
+                            </div>
+                          </div>
 
-                                  <div className="form-group">
-                                      <span className="col-md-1 col-md-offset-2 text-center"><label>Contact</label></span>
-                                      <div className="col-md-8">
-                                        <input id="email" type="text" value={contact} onChange={this.handleContact} className="form-control" />
-                                      </div>
-                                  </div>
+                          <div className="form-group">
+                            <span className="col-md-1 col-md-offset-2 text-center"><label>Contact</label></span>
+                            <div className="col-md-8">
+                              <input id="email" type="text" value={contact} onChange={this.handleContact} className="form-control" />
+                            </div>
+                          </div>
 
-                                  <div className="form-group">
-                                      <span className="col-md-1 col-md-offset-2 text-center"><label>Location</label></span>
-                                      <div className="col-md-8">
-                                        <input id="email" type="text" value={location} onChange={this.handleLocation} className="form-control" />
-                                      </div>
-                                  </div>
+                          <div className="form-group">
+                            <span className="col-md-1 col-md-offset-2 text-center"><label>Location</label></span>
+                            <div className="col-md-8">
+                              <input id="email" type="text" value={location} onChange={this.handleLocation} className="form-control" />
+                            </div>
+                          </div>
 
-                                  <div className="form-group">
-                                      <div className="col-md-12 text-center">
-                                          <button type="submit" className="btn btn-primary btn-lg">Submit</button>
-                                      </div>
-                                  </div>
+                          <div className="form-group">
+                            <div className="col-md-12 text-center">
+                              <button type="submit" className="btn btn-primary btn-lg">Submit</button>
+                            </div>
+                          </div>
 
-                              </fieldset>
-                          </form>
-                      </div>
+                        </fieldset>
+                      </form>
+                    </div>
                   </div>
+                </div>
               </div>
-          </div>
-          }
+            }
         </div>
         {
           (mapShow && lng) &&
@@ -217,9 +274,6 @@ class JobItem extends Component {
             lng={lng}
             />
         }
-        <div></div>
-          <div></div>
-
       </div>
     )
   }

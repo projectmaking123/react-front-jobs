@@ -22,11 +22,11 @@ class Login extends Component {
           <div>
             {
               !currentUser &&
-              <button
-                className="btn btn-primary btn-lg btn-block login-button"
-                onClick={() => auth.signInWithPopup(googleAuthProvider)}>
-                Login with Google to apply and create jobs 
-              </button>
+              <a
+                onClick={() => auth.signInWithPopup(googleAuthProvider)}
+                className="btn btn-block btn-social btn-google-plus">
+                <i className="fa fa-google-plus"></i> Sign in with Google to apply, or create listing
+              </a>
             }
           </div>
 				</div>

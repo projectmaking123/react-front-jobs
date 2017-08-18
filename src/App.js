@@ -86,7 +86,6 @@ class App extends Component {
             currentUser &&
             <div>
               <h1 style={{textAlign: 'center'}}>It's Nice To Meet You {currentUser.displayName}</h1>
-              <h1 style={{textAlign: 'center'}}>Good Luck in catching some piggies</h1>
               <form>
                 <div className="row">
                   <div className="col-md-12">
@@ -96,7 +95,7 @@ class App extends Component {
                         className="form-control"
                         onChange={this.searchFilter}
                         value={this.state.searchTerm}
-                        placeholder={"SEARCH JOBS BY TITLE"}
+                        placeholder={"SEARCH JOBS BY TITLE, FIELD OR SKILL"}
                         style={{textAlign: 'center'}}
                         />
                     </div>
@@ -120,9 +119,8 @@ class App extends Component {
                 currentUser={currentUser}
                 handleJobList={this.handleJobList}
                 />
-          )
-        }
-
+            )
+          }
         </div>
       </div>
     </section>

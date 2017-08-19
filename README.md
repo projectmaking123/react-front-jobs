@@ -22,6 +22,9 @@ password: bacontest
 Google Test Account: bacontester2@gmail.com
 password: bacontest
 
+The rails api is seeded so that bacontester1 created all the seed jobs.
+Log in as bacontester2 to view application functionality
+
 ## User Story
 
 If User is not logged in, user may view job listings, but can not apply

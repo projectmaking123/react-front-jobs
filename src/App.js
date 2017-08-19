@@ -13,12 +13,17 @@ class App extends Component {
 
     this.state = {
       data: null,
+      index: null,
       currentUser: null,
-      searchTerm: ''
+      searchTerm: '',
+      showIndex: true,
+      currentPage: 0
     }
     this.handleJobList = this.handleJobList.bind(this);
     this.signOut = this.signOut.bind(this);
     this.searchFilter = this.searchFilter.bind(this);
+    this.nextPage = this.nextPage.bind(this);
+    this.previousPage = this.previousPage.bind(this);
   }
 
   componentDidMount() {
@@ -29,7 +34,10 @@ class App extends Component {
   }
 
   searchFilter = event => {
-    this.setState({searchTerm: event.target.value})
+    this.setState({
+      searchTerm: event.target.value,
+      showIndex: false
+    })
   }
 
   signOut() {
@@ -39,26 +47,25 @@ class App extends Component {
 
   handleJobList(){
     axios.get('https://jason-jobs-bacon.herokuapp.com/api/v1/jobs').then(response => {
-      this.setState({ data: response.data.data })
+      this.setState({
+        data: response.data.data,
+        index: response.data.data
+       })
     }).catch(function (error) {
       console.log(error);
     });
   }
 
-  handleEmail(event) {
-    this.setState({email: event.target.value})
+  nextPage(){
+    this.setState({currentPage: this.state.currentPage + 5})
   }
 
-  handlePassword(event) {
-    this.setState({password: event.target.value})
-  }
-
-  handleConfirm(event) {
-    this.setState({password_confirm: event.target.value})
+  previousPage(){
+    this.setState({currentPage: this.state.currentPage - 5})
   }
 
   render() {
-    const { data, currentUser, searchTerm } = this.state
+    const { data, currentUser, searchTerm, showIndex, index, currentPage } = this.state
     return (
       <div>
         <header className="masthead">
@@ -105,18 +112,43 @@ class App extends Component {
             </div>
           }
         </div>
-      <div>
+        <div>
           {
-            data &&
-            data
-            .filter((job) => `${job.title} ${job.field} ${job.key_skill}`.toUpperCase().indexOf(searchTerm.toUpperCase()) >= 0)
+            (showIndex && index) &&
+            index
+            .slice(currentPage, currentPage + 5)
             .map(job =>
-                <JobItem
-                  key={job.id}
-                  job={job}
-                  currentUser={currentUser}
-                  handleJobList={this.handleJobList}
-                  />
+              <JobItem
+                key={job.id}
+                job={job}
+                currentUser={currentUser}
+                handleJobList={this.handleJobList}
+                />
+            )
+          }
+          <div style={{textAlign: 'center', backgroundColor: 'lightblue'}}>
+            {
+              (currentPage > 0) &&
+              <button className="page-button" onClick={this.previousPage}><i style={{fontSize: '20px'}} className="glyphicon glyphicon-chevron-left"></i></button>
+            }
+            {
+              (index && (currentPage < index.length - 5)) &&
+              <button className="page-button" onClick={this.nextPage}><i style={{fontSize: '20px'}} className="glyphicon glyphicon-chevron-right"></i></button>
+            }
+          </div>
+        </div>
+      <div>
+        {
+          (searchTerm !== '') &&
+          data
+          .filter((job) => `${job.title} ${job.field} ${job.key_skill}`.toUpperCase().indexOf(searchTerm.toUpperCase()) >= 0)
+          .map(job =>
+              <JobItem
+                key={job.id}
+                job={job}
+                currentUser={currentUser}
+                handleJobList={this.handleJobList}
+                />
             )
           }
       </div>

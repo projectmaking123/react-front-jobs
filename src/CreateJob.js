@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import axios from 'axios';
-import { DropdownButton, MenuItem } from 'react-bootstrap';
+import { DropdownButton } from 'react-bootstrap';
 
 
 class CreateJob extends Component {
@@ -70,7 +70,7 @@ class CreateJob extends Component {
   }
 
   render() {
-    const { title, field, key_skill, description, contact, location } = this.state
+    const { title, field, description, contact, location } = this.state
     return(
       <section id="contact">
         <div className="container">
@@ -189,7 +189,6 @@ class CreateJob extends Component {
                   <button onClick={this.handleSkill} value="Developer" className="drop-down btn btn-info">Developer</button>
                   <button onClick={this.handleSkill} value="Fitness" className="drop-down btn btn-info">Fitness</button>
                 </DropdownButton>
-                {key_skill}
                   <div className="clearfix"></div>
                   <div className="col-lg-12 text-center">
                     <div id="success"></div>
@@ -206,9 +205,3 @@ class CreateJob extends Component {
 }
 
 export default CreateJob;
-
-// <div className="form-group">
-//   <input className="form-control" type="text" value={key_skill} onChange={this.handleSkill}
-//     onClick={() => this.setState({key_skill: ''})}/>
-//   <p className="help-block text-danger"></p>
-// </div>

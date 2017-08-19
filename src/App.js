@@ -24,6 +24,7 @@ class App extends Component {
     this.searchFilter = this.searchFilter.bind(this);
     this.nextPage = this.nextPage.bind(this);
     this.previousPage = this.previousPage.bind(this);
+    this.clearSearch = this.clearSearch.bind(this);
   }
 
   componentDidMount() {
@@ -33,7 +34,15 @@ class App extends Component {
     this.handleJobList();
   }
 
-  searchFilter = event => {
+  clearSearch(event){
+    event.preventDefault()
+    this.setState({
+      searchTerm: '',
+      showIndex: true
+    })
+  }
+
+  searchFilter(event){
     this.setState({
       searchTerm: event.target.value,
       showIndex: false
@@ -91,10 +100,10 @@ class App extends Component {
         <div style={{backgroundColor: "lightblue"}}>
           {
             currentUser &&
-            <div>
+            <div className="row">
               <h1 id="intro">Current Oppurtunities</h1>
               <form>
-                <div className="row">
+                <div>
                   <div className="col-lg-4 col-lg-offset-4">
                     <div className="form-group">
                       <input
@@ -102,8 +111,13 @@ class App extends Component {
                         className="form-control"
                         onChange={this.searchFilter}
                         value={this.state.searchTerm}
-                        placeholder={"SEARCH JOBS BY TITLE, FIELD OR SKILL"}
+                        placeholder={"START TYPING TO SEARCH JOBS BY TITLE, FIELD OR SKILL"}
+                        style={{textAlign: 'center'}}
                         />
+                      <button className="page-button"
+                        onClick={this.clearSearch}>
+                        Clear Search
+                      </button>
                     </div>
                   </div>
                 </div>

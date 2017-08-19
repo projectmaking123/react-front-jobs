@@ -32,6 +32,12 @@ The rails api is seeded so that bacontester1 created all the seed jobs.
 
 Log in as bacontester2 to view application functionality
 
+There are more auth methods. I chose only google auth because google does not require keys, but facebook and github requires api keys.
+
+Checkout the docs, its really cool.
+
+https://firebase.google.com/docs/auth/
+
 ## User Story
 
 If User is not logged in, user may view job listings, but can not apply
@@ -43,3 +49,5 @@ User who creates job may not apply.
 Once User has applied, the user can no longer apply.
 
 There is a search feature that will filter jobs.
+
+Click clear search to re-render the original index list after searching.

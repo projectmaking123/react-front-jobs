@@ -10,6 +10,8 @@ google-map-react is providing the google map feature.
 
 https://react-for-bacon.firebaseapp.com/
 
+Keep in mind the rails api is running on heroku, may take a few seconds to initially load 
+
 or
 
 clone the repository

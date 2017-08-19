@@ -28,7 +28,7 @@ render() {
                 margin: '0'
               }}
               defaultCenter={this.state.center}
-              defaultZoom={12}
+              defaultZoom={15}
               >
               <Marker
                 lat={lat}

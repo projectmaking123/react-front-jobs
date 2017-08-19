@@ -1,10 +1,6 @@
-.list-container {
-  text-align: center;
-  margin-bottom: 5%;
-}
-
-.jobs {
-  text-align: center;
+.card-display {
+  background-color: lightblue;
+  padding: 2%;
 }
 
 .btn {
@@ -20,12 +16,12 @@
   margin-bottom: 0;
   vertical-align: middle;
   white-space: nowrap;
-	font-size:14px;
+	font-size:12px;
 	line-height:20px;
 	font-weight:700;
 	text-transform:uppercase;
 	border: 3px solid;
-	padding:8px 20px;
+	padding:6px 16px;
   margin-bottom: 1%;
   margin-top: 1%;
 }

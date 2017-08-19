@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import axios from 'axios';
+import { DropdownButton, MenuItem } from 'react-bootstrap';
 
 
 class CreateJob extends Component {
@@ -12,7 +13,7 @@ class CreateJob extends Component {
       key_skill: "skill",
       description: "description",
       contact: "contact",
-      location: 'city'
+      location: 'location'
     }
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleTitle = this.handleTitle.bind(this);
@@ -21,6 +22,7 @@ class CreateJob extends Component {
     this.handleDescription = this.handleDescription.bind(this);
     this.handleContact = this.handleContact.bind(this);
     this.handleLocation = this.handleLocation.bind(this);
+    this.handleOptionChange = this.handleOptionChange.bind(this);
   }
 
   handleSubmit(event){
@@ -61,6 +63,11 @@ class CreateJob extends Component {
   handleLocation(event) {
     this.setState({location: event.target.value});
   }
+  handleOptionChange(event) {
+    this.setState({
+      field: event.target.value
+    });
+  }
 
   render() {
     const { title, field, key_skill, description, contact, location } = this.state
@@ -84,18 +91,13 @@ class CreateJob extends Component {
                       <p className="help-block text-danger"></p>
                     </div>
                     <div className="form-group">
-                      <input type="text" className="form-control" value={field} onChange={this.handleField}
-                        onClick={() => this.setState({field: ''})}/>
-                      <p className="help-block text-danger"></p>
-                    </div>
-                    <div className="form-group">
-                      <input className="form-control" type="text" value={key_skill} onChange={this.handleSkill}
-                        onClick={() => this.setState({key_skill: ''})}/>
-                      <p className="help-block text-danger"></p>
-                    </div>
-                    <div className="form-group">
                       <input type="text" className="form-control" value={location} onChange={this.handleLocation}
                         onClick={() => this.setState({location: ''})}/>
+                      <p className="help-block text-danger"></p>
+                    </div>
+                    <div className="form-group">
+                      <input type="text" className="form-control" value={contact} onChange={this.handleContact}
+                        onClick={() => this.setState({contact: ''})}/>
                       <p className="help-block text-danger"></p>
                     </div>
                   </div>
@@ -105,12 +107,89 @@ class CreateJob extends Component {
                         onClick={() => this.setState({description: ''})}/>
                       <p className="help-block text-danger"></p>
                     </div>
-                    <div className="form-group">
-                      <input type="text" className="form-control" value={contact} onChange={this.handleContact}
-                        onClick={() => this.setState({contact: ''})}/>
-                      <p className="help-block text-danger"></p>
-                    </div>
                   </div>
+                  <div className="clearfix"></div>
+
+                <div className="row">
+                  <fieldset className="form-group">
+                    <legend>Fields</legend>
+                    <table className="table">
+                      <tbody>
+                        <tr>
+                          <td className="form-check col-6">
+                            <label className="form-check-label">
+                              <input type="radio" className="form-check-input" name="optionsRadios" id="optionsRadios1"
+                                value="Technology"
+                                onChange={this.handleOptionChange}
+                                checked={field === 'Technology'}
+                                />
+                              Technology
+                            </label>
+                          </td>
+                          <td className="form-check col-6">
+                            <label className="form-check-label">
+                              <input type="radio" className="form-check-input" name="optionsRadios" id="optionsRadios2"
+                                value="Business"
+                                onChange={this.handleOptionChange}
+                                checked={field === 'Business'}
+                                />
+                              Business
+                            </label>
+                          </td>
+                          <td className="form-check col-6">
+                            <label className="form-check-label">
+                              <input type="radio" className="form-check-input" name="optionsRadios" id="optionsRadios2"
+                                value="Science"
+                                onChange={this.handleOptionChange}
+                                checked={field === 'Science'}
+                                />
+                              Science
+                            </label>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td className="form-check col-6">
+                            <label className="form-check-label">
+                              <input type="radio" className="form-check-input" name="optionsRadios" id="optionsRadios1"
+                                value="Technology"
+                                onChange={this.handleOptionChange}
+                                checked={field === 'Technology'}
+                                />
+                              Education
+                            </label>
+                          </td>
+                          <td className="form-check col-6">
+                            <label className="form-check-label">
+                              <input type="radio" className="form-check-input" name="optionsRadios" id="optionsRadios2"
+                                value="Business"
+                                onChange={this.handleOptionChange}
+                                checked={field === 'Business'}
+                                />
+                              Medicine
+                            </label>
+                          </td>
+                          <td className="form-check col-6">
+                            <label className="form-check-label">
+                              <input type="radio" className="form-check-input" name="optionsRadios" id="optionsRadios2"
+                                value="Science"
+                                onChange={this.handleOptionChange}
+                                checked={field === 'Science'}
+                                />
+                              Entertainment
+                            </label>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </fieldset>
+                </div>
+                <DropdownButton title="Skills" id="dropButtonMenu">
+                  <button onClick={this.handleSkill} value="Math" className="drop-down btn btn-info">Math</button>
+                  <button onClick={this.handleSkill} value="English" className="drop-down btn btn-info">English</button>
+                  <button onClick={this.handleSkill} value="Developer" className="drop-down btn btn-info">Developer</button>
+                  <button onClick={this.handleSkill} value="Fitness" className="drop-down btn btn-info">Fitness</button>
+                </DropdownButton>
+                {key_skill}
                   <div className="clearfix"></div>
                   <div className="col-lg-12 text-center">
                     <div id="success"></div>
@@ -127,3 +206,9 @@ class CreateJob extends Component {
 }
 
 export default CreateJob;
+
+// <div className="form-group">
+//   <input className="form-control" type="text" value={key_skill} onChange={this.handleSkill}
+//     onClick={() => this.setState({key_skill: ''})}/>
+//   <p className="help-block text-danger"></p>
+// </div>

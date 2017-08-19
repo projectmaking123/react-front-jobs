@@ -5,3 +5,21 @@
 .container-list {
   margin-top: 10%
 }
+
+#intro {
+  font-family: 'Cormorant Garamond';
+  border-bottom: 3px solid 	#B8860B;
+  font-size: 48px;
+  font-weight: 400;
+  line-height: 72px;
+  letter-spacing: 3px;
+  text-align: center;
+  text-indent: 24px;
+  text-transform: uppercase;
+  color: white;
+}
+
+.drop-down {
+  width: 100%;
+  color: black;
+}

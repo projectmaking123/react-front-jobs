@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import GMap from './GMap';
-import moment from 'moment';
-import map from 'lodash/map';
 import './JobItem.css';
 
 class JobItem extends Component {
@@ -11,7 +9,7 @@ class JobItem extends Component {
 
     this.state = {
       jobShow: false,
-      applied: 'show',
+      applied: 'inline',
       formShow: false,
       mapShow: false,
       title: this.props.job.title,
@@ -48,19 +46,19 @@ class JobItem extends Component {
 
   applyToJob(){
     const { currentUser } = this.props
-    this.setState({applied: 'hidden'})
+    this.setState({applied: 'none'})
     axios.post(`https://jason-jobs-bacon.herokuapp.com/api/v1/jobs/${this.props.job.id}/users`, {
       name: currentUser.displayName,
       email: currentUser.email,
       uid: currentUser.uid
     })
-    .then((res) => {
+    .then(() => {
+      this.props.handleJobList();
       }
     )
     .catch(function (error) {
       console.log(error);
     });
-    this.props.handleJobList();
   }
 
   handleUpdateJob(event){
@@ -135,11 +133,11 @@ class JobItem extends Component {
 
   render() {
     const { job, currentUser } = this.props
-    const { formShow, mapShow, title, field, key_skill, description, contact, location, lat, lng, creation, jobShow } = this.state
+    const { formShow, mapShow, title, field, key_skill, description, contact, location, lat, lng, creation, jobShow, applied } = this.state
     return(
-      <div className="jobs">
-        <div className="card list-container">
-          <div className="card-block">
+      <div className="text-center card-display">
+        <div>
+          <div>
             <h4 className="card-title">{title}</h4>
             <div>
               { !jobShow &&
@@ -165,18 +163,24 @@ class JobItem extends Component {
               </div>
             }
             </div>
-              { (currentUser && this.props.job.applicants) &&
+              {
+                (currentUser && this.props.job.applicants) &&
                 this.props.job.applicants.map((user, key) => {
                   if (user.uid === currentUser.uid) {
-                    return (<p className="card-text" key={key} > Applied </p>)
+                    return (<p className="card-text" key={key}> Applied </p>)
                   }
                 })
               }
               {
-              (currentUser && !this.props.job.applicants.some(user => user.uid === currentUser.uid )) &&
-                <a className={"btn btn-outlined btn-theme apply-btn" + this.state.applied}
+                (currentUser && !this.props.job.applicants.some(user => user.uid === currentUser.uid )) &&
+                <a className={"btn btn-outlined btn-theme apply-btn"}
                   data-wow-delay="0.7s"
-                  onClick={this.applyToJob}>Apply</a>
+                  onClick={this.applyToJob}
+                  style={{
+                    display: applied
+                  }}>
+                  Apply
+                </a>
               }
               <div>
                 {(currentUser && (currentUser.uid === job.uid)) &&
@@ -280,17 +284,3 @@ class JobItem extends Component {
 }
 
 export default JobItem;
-
-
-// (currentUser.uid !== job.uid) &&
-
-  // (currentUser && (currentUser.uid === job.uid)) &&
-
-  // !this.props.job.applicants.some(user => user.uid === this.props.currentUser.uid ))
-
-  // {
-  // (!this.props.job.applicants.some(user => user.uid === this.props.currentUser.uid )) &&
-  //   <a className={"btn btn-outlined btn-theme apply-btn" + this.state.applied}
-  //     data-wow-delay="0.7s"
-  //     onClick={this.applyToJob}>Apply</a>
-  // }

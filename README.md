@@ -1,6 +1,3 @@
-Google Test Account: bacontester1@gmail.com
-password: bacontest
-
 # Welcome to the React Front-End for Bacon Listings
 
 The front-end server is hosted on firebase.

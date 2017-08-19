@@ -85,7 +85,7 @@ class App extends Component {
           {
             currentUser &&
             <div>
-              <h1 style={{textAlign: 'center'}}>It's Nice To Meet You {currentUser.displayName}</h1>
+              <h1 id="intro">Current Oppurtunities</h1>
               <form>
                 <div className="row">
                   <div className="col-md-12">
@@ -105,25 +105,21 @@ class App extends Component {
             </div>
           }
         </div>
-    <section className="bg-light" id="portfolio">
-      <div className="row">
-        <div className="col-lg-12 text-center">
+      <div>
           {
             data &&
             data
             .filter((job) => `${job.title} ${job.field} ${job.key_skill}`.toUpperCase().indexOf(searchTerm.toUpperCase()) >= 0)
             .map(job =>
-              <JobItem
-                key={job.id}
-                job={job}
-                currentUser={currentUser}
-                handleJobList={this.handleJobList}
-                />
+                <JobItem
+                  key={job.id}
+                  job={job}
+                  currentUser={currentUser}
+                  handleJobList={this.handleJobList}
+                  />
             )
           }
-        </div>
       </div>
-    </section>
     </div>
     );
   }

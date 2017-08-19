@@ -46,7 +46,7 @@ If User is not logged in, user may view job listings, but can not apply
 
 When User logs in with google, user may apply to jobs, user may create job.
 
-User who creates job may not apply.
+User who created that job may not apply to their own job posting.
 
 Once User has applied, the user can no longer apply.
 

@@ -168,7 +168,7 @@ class JobItem extends Component {
                 })
               }
               {
-                (currentUser && !this.props.job.applicants.some(user => user.uid === currentUser.uid )) &&
+                (currentUser && currentUser.uid !== job.uid && !this.props.job.applicants.some(user => user.uid === currentUser.uid )) &&
                 <a className={"btn btn-outlined btn-theme apply-btn"}
                   data-wow-delay="0.7s"
                   onClick={this.applyToJob}

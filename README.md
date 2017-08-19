@@ -48,7 +48,7 @@ When User logs in with google, user may apply to jobs, user may create job.
 
 User who created that job may not apply to their own job posting.
 
-Once User has applied, the user can no longer apply.
+Once User has applied, the user can no longer apply to the same job posting.
 
 There is a search feature that will filter jobs.
 

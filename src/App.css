@@ -1,5 +1,7 @@
 .App {
   text-align: center;
+  padding: 0;
+  margin: 0;
 }
 
 .container-list {
@@ -17,6 +19,7 @@
   text-indent: 24px;
   text-transform: uppercase;
   color: white;
+  background-color: lightblue
 }
 
 .drop-down {

@@ -40,10 +40,6 @@ class JobItem extends Component {
     this.handleGeoMapApi();
   }
 
-  showJob(){
-    this.setState({})
-  }
-
   applyToJob(){
     const { currentUser } = this.props
     this.setState({applied: 'none'})

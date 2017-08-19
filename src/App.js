@@ -76,7 +76,7 @@ class App extends Component {
             </div>
           </div>
         </header>
-        <div>
+        <div style={{backgroundColor: "lightblue"}}>
           {
             currentUser &&
             <CreateJob
@@ -88,14 +88,14 @@ class App extends Component {
               />
             }
         </div>
-        <div>
+        <div style={{backgroundColor: "lightblue"}}>
           {
             currentUser &&
             <div>
               <h1 id="intro">Current Oppurtunities</h1>
               <form>
                 <div className="row">
-                  <div className="col-md-12">
+                  <div className="col-lg-4 col-lg-offset-4">
                     <div className="form-group">
                       <input
                         type="text"
@@ -103,7 +103,6 @@ class App extends Component {
                         onChange={this.searchFilter}
                         value={this.state.searchTerm}
                         placeholder={"SEARCH JOBS BY TITLE, FIELD OR SKILL"}
-                        style={{textAlign: 'center'}}
                         />
                     </div>
                   </div>
@@ -128,11 +127,11 @@ class App extends Component {
           }
           <div style={{textAlign: 'center', backgroundColor: 'lightblue'}}>
             {
-              (currentPage > 0) &&
+              ((currentPage > 0) && searchTerm === '') &&
               <button className="page-button" onClick={this.previousPage}><i style={{fontSize: '20px'}} className="glyphicon glyphicon-chevron-left"></i></button>
             }
             {
-              (index && (currentPage < index.length - 5)) &&
+              (index && (currentPage < index.length - 5) && searchTerm === '') &&
               <button className="page-button" onClick={this.nextPage}><i style={{fontSize: '20px'}} className="glyphicon glyphicon-chevron-right"></i></button>
             }
           </div>

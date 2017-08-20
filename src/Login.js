@@ -25,7 +25,7 @@ class Login extends Component {
               <a
                 onClick={() => auth.signInWithPopup(googleAuthProvider)}
                 className="btn btn-block btn-social btn-google-plus">
-                <i className="fa fa-google-plus"></i> Sign in with Google to apply, or create listing
+                <i className="fa fa-google-plus"></i> Sign in with Google to apply/create listing
               </a>
             }
           </div>

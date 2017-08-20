@@ -101,7 +101,7 @@ class App extends Component {
           {
             currentUser &&
             <div className="row">
-              <h1 id="intro">Current Oppurtunities</h1>
+              <h1 id="intro">Current Listings</h1>
               <form>
                 <div>
                   <div className="col-lg-4 col-lg-offset-4">

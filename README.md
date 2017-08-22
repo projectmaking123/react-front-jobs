@@ -10,6 +10,8 @@ google-map-react is providing the google map feature.
 
 https://react-for-bacon.firebaseapp.com/
 
+Keep in mind the rails api is running on heroku, may take a few seconds to initially load 
+
 or
 
 clone the repository
@@ -44,9 +46,9 @@ If User is not logged in, user may view job listings, but can not apply
 
 When User logs in with google, user may apply to jobs, user may create job.
 
-User who creates job may not apply.
+User who created that job may not apply to their own job posting.
 
-Once User has applied, the user can no longer apply.
+Once User has applied, the user can no longer apply to the same job posting.
 
 There is a search feature that will filter jobs.
 

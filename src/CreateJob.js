@@ -151,9 +151,9 @@ class CreateJob extends Component {
                           <td className="form-check col-6">
                             <label className="form-check-label">
                               <input type="radio" className="form-check-input" name="optionsRadios" id="optionsRadios1"
-                                value="Technology"
+                                value="Education"
                                 onChange={this.handleOptionChange}
-                                checked={field === 'Technology'}
+                                checked={field === 'Education'}
                                 />
                               Education
                             </label>
@@ -161,9 +161,9 @@ class CreateJob extends Component {
                           <td className="form-check col-6">
                             <label className="form-check-label">
                               <input type="radio" className="form-check-input" name="optionsRadios" id="optionsRadios2"
-                                value="Business"
+                                value="Medicine"
                                 onChange={this.handleOptionChange}
-                                checked={field === 'Business'}
+                                checked={field === 'Medicine'}
                                 />
                               Medicine
                             </label>
@@ -171,9 +171,9 @@ class CreateJob extends Component {
                           <td className="form-check col-6">
                             <label className="form-check-label">
                               <input type="radio" className="form-check-input" name="optionsRadios" id="optionsRadios2"
-                                value="Science"
+                                value="Entertainment"
                                 onChange={this.handleOptionChange}
-                                checked={field === 'Science'}
+                                checked={field === 'Entertainment'}
                                 />
                               Entertainment
                             </label>

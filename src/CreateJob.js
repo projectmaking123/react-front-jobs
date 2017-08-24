@@ -52,6 +52,7 @@ class CreateJob extends Component {
     this.setState({field: event.target.value});
   }
   handleSkill(event) {
+    event.preventDefault();
     this.setState({key_skill: event.target.value});
   }
   handleDescription(event) {
@@ -183,12 +184,14 @@ class CreateJob extends Component {
                     </table>
                   </fieldset>
                 </div>
+
                 <DropdownButton title="Skills" id="dropButtonMenu">
                   <button onClick={this.handleSkill} value="Math" className="drop-down btn btn-info">Math</button>
                   <button onClick={this.handleSkill} value="English" className="drop-down btn btn-info">English</button>
                   <button onClick={this.handleSkill} value="Developer" className="drop-down btn btn-info">Developer</button>
                   <button onClick={this.handleSkill} value="Fitness" className="drop-down btn btn-info">Fitness</button>
                 </DropdownButton>
+
                   <div className="clearfix"></div>
                   <div className="col-lg-12 text-center">
                     <div id="success"></div>
@@ -205,3 +208,10 @@ class CreateJob extends Component {
 }
 
 export default CreateJob;
+
+// <DropdownButton title="Skills" id="dropButtonMenu">
+//   <button onClick={this.handleSkill} value="Math" className="drop-down btn btn-info">Math</button>
+//   <button onClick={this.handleSkill} value="English" className="drop-down btn btn-info">English</button>
+//   <button onClick={this.handleSkill} value="Developer" className="drop-down btn btn-info">Developer</button>
+//   <button onClick={this.handleSkill} value="Fitness" className="drop-down btn btn-info">Fitness</button>
+// </DropdownButton>

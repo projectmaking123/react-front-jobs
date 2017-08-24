@@ -38,6 +38,7 @@ class CreateJob extends Component {
     })
     .then(() => {
       this.props.handleJobList();
+      this.forceUpdate();
       }
     )
     .catch(function (error) {

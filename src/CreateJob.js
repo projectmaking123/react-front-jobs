@@ -208,10 +208,3 @@ class CreateJob extends Component {
 }
 
 export default CreateJob;
-
-// <DropdownButton title="Skills" id="dropButtonMenu">
-//   <button onClick={this.handleSkill} value="Math" className="drop-down btn btn-info">Math</button>
-//   <button onClick={this.handleSkill} value="English" className="drop-down btn btn-info">English</button>
-//   <button onClick={this.handleSkill} value="Developer" className="drop-down btn btn-info">Developer</button>
-//   <button onClick={this.handleSkill} value="Fitness" className="drop-down btn btn-info">Fitness</button>
-// </DropdownButton>
